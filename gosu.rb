@@ -15,7 +15,7 @@ class Player < Chingu::GameObject
 
 	#meta-contructor
 	def setup
-		@x, @y = 350, 400
+		@x, @y = 200, 400
 		@image = Gosu::Image["bullshit.psd"]  #Skeppet
 		self.input = {
 			holding_left: :left,
@@ -26,19 +26,27 @@ class Player < Chingu::GameObject
 	end
 
 	def left
-		@x -= 1
+		unless @x - 25 <= 0
+			@x -= 2
+		end
 	end
 
 	def right
-		@x += 1
+		unless @x + 25 >= 800
+			@x += 2
+		end
 	end
 
 	def up
-		@y -= 1
+		unless @y - 25 <= 0
+			@y -= 2
+		end
 	end
 
 	def down
-		@y += 1
+		unless @y + 25 >= 600
+			@y += 2
+		end
 	end
 
 
