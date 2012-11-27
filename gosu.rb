@@ -7,6 +7,16 @@ class Game < Chingu::Window
 		super
 		self.input = {esc: :exit}
 		@player = Player.create
+		@target = []
+		5.times { @target << Target.create}
+	end
+
+	def update
+		super
+		Laser.each_bounding_circle_collision(Target) do |laser, target|
+		laser.destroy
+		target.destroy
+		end
 	end
 
 end
@@ -22,7 +32,8 @@ class Player < Chingu::GameObject
 			holding_left: :left,
 			holding_right: :right,
 			holding_up: :up,
-			holding_down: :down
+			holding_down: :down,
+			space: :fire
 		}
 	end
 
@@ -50,7 +61,28 @@ class Player < Chingu::GameObject
 		end
 	end
 
+	def fire
+		Laser.create(x: self.x, y: self.y)
+	end
+end
 
+class Laser < Chingu::GameObject
+	has_traits :velocity, :collision_detection, :bounding_circle
+
+	def setup
+		@image = Gosu::Image["laser.png"]
+		self.velocity_y = -10
+	end
+end
+
+class Target < Chingu::GameObject
+	has_traits :collision_detection, :bounding_circle
+
+	def setup 
+		@x = rand(800)
+		@y = 100
+		@image = Gosu::Image["target.png"]
+	end
 end
 
 Game.new.show
