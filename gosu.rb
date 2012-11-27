@@ -4,8 +4,9 @@ class Game < Chingu::Window
 
 	#constructor
 	def initialize
-		super
+		super 640, 480
 		self.input = {esc: :exit}
+		@background_image = Bkimg.create
 		@player = Player.create
 		@target = []
 		5.times { @target << Target.create}
@@ -82,6 +83,15 @@ class Target < Chingu::GameObject
 		@x = rand(800)
 		@y = 100
 		@image = Gosu::Image["target.png"]
+	end
+end
+
+class Bkimg < Chingu::GameObject
+
+	def setup
+		@x = 640/2
+		@y = 480/2
+		@image = Gosu::Image["galaxy.jpg"]
 	end
 end
 
